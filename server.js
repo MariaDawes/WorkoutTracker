@@ -1,100 +1,24 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-
 const PORT = process.env.PORT || 3000;
-
-const db = require("./models");
-
 const app = express();
 
+//Configure App
 app.use(logger("dev"));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true, useFindAndModify: false });
+//Connect to the database
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+//mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true, useFindAndModify: false });
 
-// from here needs to verify
+//Set up the routes
+require("./routes/htmlRoutes.js")(app);
+require("./routes/apiRoutes.js")(app);
 
-db.User.create({ name: "Ernest Hemingway" })
-  .then(dbUser => {
-    console.log(dbUser);
-  })
-  .catch(({ message }) => {
-    console.log(message);
-  });
-
-//Continue workout: update workout table id you are in with  
-app.get("/notes", (req, res) => {
-  db.Note.find({})
-    .then(dbNote => {
-      res.json(dbNote);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
-
-
-app.post("/submit", ({body}, res) => {
-  db.Book.create(body)
-    .then(({_id}) => db.Library.findOneAndUpdate({}, { $push: { books: _id } }, { new: true }))
-    .then(dbLibrary => {
-      res.json(dbLibrary);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
-
-//Continue new workout: save new workout
-app.get("/user", (req, res) => {
-  db.User.find({})
-    .then(dbUser => {
-      res.json(dbUser);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
-
-app.post("/submit", ({ body }, res) => {
-  db.Note.create(body)
-    .then(({ _id }) => db.User.findOneAndUpdate({}, { $push: { notes: _id } }, { new: true }))
-    .then(dbUser => {
-      res.json(dbUser);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
-
-app.get("/populateduser", (req, res) => {
-  // TODO
-  // =====
-  // Write the query to grab the documents from the User collection,
-  // and populate them with any associated Notes.
-  // TIP: Check the models out to see how the Notes refers to the User
-
-
-    db.User.find({}).populate("notes")
-      .then(dbNotes) => {res.json(dbNotes)
-
-
-  
-
-
-
-
-
-});
-
-
-// Leave the part below
-// Start the server
+//Start teh server
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
 });
