@@ -1,23 +1,33 @@
 //const db = require("../models");
 const Workout = require("../models/workout");
-const Exercise = require("../models/exercise");
+//const Exercise = require("../models/exercise");
 
 
 module.exports = function(app) {
 
-  //GET routes for all workouts (Read)
+  Workout.create({ name: "Workouts" })
+  .then(dbWorkout => {
+    console.log(dbWorkout);
+  })
+  .catch(({message}) => {
+    console.log("message: ", message);
+  });
+
+
+  //GET (read) routes for all workouts 
   app.get("/api/workouts", (req, res) => {
     Workout.find({})
-      .then(function (dbWorkout) {
+      .then(dbWorkout => {
         res.json(dbWorkout);
       })
       .catch(err => {
         res.json(err);
-      })
-  })
+      });
+  });
 
- //GET - specs for dashboard
- app.get("/api/workouts/range", function (req, res) {
+ //GET (read) specs for dashboard
+ app.get("/stats", function (req, res) {
+  //app.get("/api/workouts/range", function (req, res) {  
   Workout.find({}).then(function (dbWorkout) {
           res.json(dbWorkout);
       }).catch(err => {
@@ -26,7 +36,7 @@ module.exports = function(app) {
 });
 
 
-//GET workout by id
+//GET (read) workout by id B
 app.get("/api/workouts/:id", function (req, res) {
   var id = req.params.id;
   Workout.findById(id, function (err, dbWorkout) {
@@ -34,23 +44,24 @@ app.get("/api/workouts/:id", function (req, res) {
           console.error(err)
         }
         res.json(dbWorkout);
+        console.log(dbWorkout);
   })
 });
 
-  //POST - Create a new workout in the database ** working **
+  //POST - (Create) a new workout in the database ** working ** B 
   app.post("/api/workouts", function (req, res) {
     Workout.create({})
    // Workout.create({exercise: req.body})
-      .then(function (dbWorkout) {
-        res.json(dbWorkout)
+      .then( dbWorkout => {
+        res.json(dbWorkout);
       })
       .catch(err => {
         res.json(err);
-      });
+      })
   });
 
   
-   //PUT - new exercise into workout (correct) 
+   //PUT - (update) new exercise into workout (correct) 
   app.put("/api/workouts/:id", function (req, res) {
     const query =  req.params.id; 
     Workout.findByIdAndUpdate(query, {
