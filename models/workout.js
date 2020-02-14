@@ -15,7 +15,6 @@ const WorkoutSchema = new Schema({
       },
       name: {
         type: String,
-        minlenth: 2,
         required: "Enter a name",
       },
       distance: {
@@ -24,9 +23,8 @@ const WorkoutSchema = new Schema({
       },
       duration: {
         type: Number,
-        required: "Enter a duration",
-        min: 1,
-      },
+        required: "Enter a duration"
+      },  
       weight: {
         type: Number,
         min: 1,
