@@ -1,0 +1,25 @@
+{
+  "name": "workouttracker",
+  "version": "1.0.0",
+  "description": "The project is to develop a website that tracks daily workouts. A person will reach their fitness goals quicker when they track their workout progress. The user has the option to create a new workout, or continue with their last workout. Also, the user can choose to add exercises to a previous workout plan or to add new exercises to a new workout plan. The website creation required the creation of a Mongo database with a Mongoose schema and handle routes with Express.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MariaDawes/WorkoutTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MariaDawes/WorkoutTracker/issues"
+  },
+  "homepage": "https://github.com/MariaDawes/WorkoutTracker#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.3",
+    "morgan": "^1.9.1"
+  }
+}
